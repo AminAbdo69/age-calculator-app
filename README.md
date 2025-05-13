@@ -57,4 +57,4 @@ Feel free to use any workflow that you feel comfortable with. Below is a suggest
 
 ## Deploying your project
 
-- [Vercel](https://age-calculator-app-rosy-nine.vercel.app/)
+- [Live Demo](https://age-calculator-app-rosy-nine.vercel.app/)
