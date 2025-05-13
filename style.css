@@ -97,6 +97,7 @@ input::placeholder {
 
 .output span {
   color: var(--Purple);
+  margin-right: 1rem;
 }
 
 small {
