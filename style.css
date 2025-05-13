@@ -1,0 +1,104 @@
+:root {
+  --Purple: hsl(259, 100%, 65%);
+  --Light-red: hsl(0, 100%, 67%);
+  --White: hsl(0, 0%, 100%);
+  --Off-white: hsl(0, 0%, 94%);
+  --Light-grey: hsl(0, 0%, 86%);
+  --Smokey-grey: hsl(0, 1%, 44%);
+  --Off-black: hsl(0, 0%, 8%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--Light-grey);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background-color: var(--White);
+  width: 600px;
+  border-radius: 1rem 1rem 10rem 1rem;
+}
+
+.container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form_container {
+  display: flex;
+  gap: 2rem;
+}
+.block {
+  display: flex;
+  flex-direction: column;
+}
+
+.block label {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+input {
+  width: 100px;
+  padding: 0.5rem;
+  border: 1px solid var(--Light-grey);
+  border-radius: 0.5rem;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+input::placeholder {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.submit_block {
+  display: flex;
+  align-items: center;
+}
+.submit_block hr {
+  width: 100%;
+}
+
+.submit_btn {
+  padding: 1rem;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--Purple);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.output h1 {
+  font-size: 5rem;
+  font-weight: 800;
+  font-style: italic;
+  height: fit-content;
+}
+
+.output span {
+  color: var(--Purple);
+}
+
+small {
+  color: red;
+}
