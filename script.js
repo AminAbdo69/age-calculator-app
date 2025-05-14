@@ -1,76 +1,105 @@
 const dayInp = document.getElementById("day");
 const monthInp = document.getElementById("month");
 const yearInp = document.getElementById("year");
-
 const dayOtp = document.getElementById("DD");
 const monthOtp = document.getElementById("MM");
 const yearOtp = document.getElementById("YY");
-
 const form = document.querySelector("form");
 
-const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+function getDaysInMonth(month, year) {
+  return new Date(year, month, 0).getDate();
+}
 
 function validate() {
   const inputs = document.querySelectorAll("input");
   let validator = true;
+
+  inputs.forEach((input) => {
+    input.classList.remove("error");
+    input.parentElement.querySelector("small").innerText = "";
+  });
+
   inputs.forEach((input) => {
     const parent = input.parentElement;
     if (!input.value) {
       input.classList.add("error");
       parent.querySelector("small").innerText = "This field is required";
       validator = false;
-    } else if (monthInp.value > 12) {
-      monthInp.classList.add("error");
-      parent.querySelector("small").innerText = "Must be a valid month";
-      validator = false;
-    } else if (dayInp.value > 31) {
-      dayInp.classList.add("error");
-      parent.querySelector("small").innerText = "Must be a valid day";
-      validator = false;
-    } else {
-      input.classList.remove("error");
-      parent.querySelector("small").innerText = "";
-      validator = true;
     }
   });
+
+  if (!validator) return false;
+
+  const currentYear = new Date().getFullYear();
+
+  if (yearInp.value.length !== 4) {
+    yearInp.classList.add("error");
+    yearInp.parentElement.querySelector("small").innerText =
+      "Must be a valid year with 4 digits";
+    validator = false;
+  }
+
+  if (yearInp.value > currentYear) {
+    yearInp.classList.add("error");
+    yearInp.parentElement.querySelector("small").innerText =
+      "Must be in the past";
+    validator = false;
+  }
+
+  if (monthInp.value < 1 || monthInp.value > 12) {
+    monthInp.classList.add("error");
+    monthInp.parentElement.querySelector("small").innerText =
+      "Must be a valid month";
+    validator = false;
+  }
+
+  if (validator && monthInp.value) {
+    const daysInMonth = getDaysInMonth(monthInp.value, yearInp.value);
+    if (dayInp.value < 1 || dayInp.value > daysInMonth) {
+      dayInp.classList.add("error");
+      dayInp.parentElement.querySelector("small").innerText =
+        "Must be a valid day";
+      validator = false;
+    }
+  }
   return validator;
 }
 
 function calculate() {
+  if (!validate()) return;
+
   const today = new Date();
   let day = today.getDate();
   let month = today.getMonth() + 1;
   let year = today.getFullYear();
 
-  if (validate()) {
-    if (dayInp.value > day) {
-      day += months[month - 1];
-      month -= 1;
-    }
+  let birthDay = parseInt(dayInp.value);
+  let birthMonth = parseInt(monthInp.value);
+  let birthYear = parseInt(yearInp.value);
 
-    if (monthInp.value > month) {
-      month += 12;
-      year -= 1;
-    }
+  let yearDiff = year - birthYear;
 
-    let days = day - dayInp.value;
-    let monthDiff = month - monthInp.value;
-    let yearDiff = year - yearInp.value;
-
-    dayOtp.innerText = days;
-    monthOtp.innerText = monthDiff;
-    yearOtp.innerText = yearDiff;
-
-    if (days < 0) {
-      days += 30;
-      monthDiff -= 1;
-    }
-
-    if (monthDiff < 0) {
-      monthDiff += 12;
-      yearDiff -= 1;
-    }
+  let monthDiff = month - birthMonth;
+  if (monthDiff < 0) {
+    yearDiff--;
+    monthDiff += 12;
   }
+  let dayDiff = day - birthDay;
+  if (dayDiff < 0) {
+    monthDiff--;
+    if (monthDiff < 0) {
+      yearDiff--;
+      monthDiff += 12;
+    }
+    const prevMonth = month - 1 === 0 ? 12 : month - 1;
+    const prevMonthYear = prevMonth === 12 ? year - 1 : year;
+    const daysInPrevMonth = getDaysInMonth(prevMonth, prevMonthYear);
+    dayDiff += daysInPrevMonth;
+  }
+
+  dayOtp.innerText = dayDiff;
+  monthOtp.innerText = monthDiff;
+  yearOtp.innerText = yearDiff;
 }
 
 form.addEventListener("submit", (e) => {
